@@ -62,6 +62,7 @@ void omp_countTokensElementsFirst (unsigned int num_els, unsigned int num_tokens
 
     //TODO parallel for
     /* for all elements in the array */
+    #pragma omp parallel for
     for (int el=0; el<num_els; el++) {
         /* for all tokens in the list */
         for (int tok=0; tok<num_tokens; tok++) {
@@ -79,6 +80,7 @@ void omp_countTokensTokensFirst (unsigned int num_els, unsigned int num_tokens,
 
     //TODO parallel for
     /* for all tokens in the list */
+    #pragma omp parallel for
     for (int tok=0; tok<num_tokens; tok++) {
         /* for all elements in the array */
         for (int el=0; el<num_els; el++) {
@@ -96,6 +98,7 @@ void omp_countTokensElementsFirst_reduce (unsigned int num_els, unsigned int num
 
     //TODO parallel for reduction
     /* for all elements in the array */
+    #pragma omp parallel for reduction(+:token_counts[:num_tokens])
     for (int el=0; el<num_els; el++) {
         /* for all tokens in the list */
         for (int tok=0; tok<num_tokens; tok++) {
@@ -113,6 +116,7 @@ void omp_countTokensTokensFirst_reduce (unsigned int num_els, unsigned int num_t
 
     //TODO parallel for reduction
     /* for all tokens in the list */
+    #pragma omp parallel for reduction(+:token_counts[:num_tokens])
     for (int tok=0; tok<num_tokens; tok++) {
         /* for all elements in the array */
         for (int el=0; el<num_els; el++) {
@@ -131,12 +135,34 @@ void unroll_omp_countTokensElementsFirst_reduce (unsigned int num_els, unsigned 
 
     //TODO parallel for reduction 
     /* for all elements in the array */
+    #pragma omp parallel for reduction(+:token_counts[:num_tokens])
     for (int el=0; el<num_els; el++) {
         /* for all tokens in the list */
         for (int tok=0; tok<num_tokens; tok+=8) {
             //TODO unroll loop 8 times
             /* update the count for the token */
             if (elements[el] == tokens[tok]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+1]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+2]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+3]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+4]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+5]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+6]) {
+                token_counts[tok]++;
+            }
+            else if (elements[el] == tokens[tok+7]) {
                 token_counts[tok]++;
             }
         }
