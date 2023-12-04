@@ -21,7 +21,7 @@ import java.io.*;
 
 public class FoF
 {
-  public static class FoFMap extends Mapper< ...TODO... >
+  public static class FoFMap extends Mapper<Object, Text, Text, NullWritable>
   {
 
     public void map(TODOTYPE key, TODOTYPE value, Context context ) 
